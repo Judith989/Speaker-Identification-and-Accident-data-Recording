@@ -1,0 +1,41 @@
+% Define a blockchain-like structure
+classdef Block
+    properties
+        SpeakerID
+        VotingResults
+        PrevHash
+    end
+end
+
+% Simulate the accident and voting process
+numVehicles = 5; % Number of vehicles
+thresholdSpeed = 60; % Threshold speed in mph
+
+% Initialize blockchain with a genesis block
+genesisBlock = Block();
+genesisBlock.SpeakerID = 'Genesis';
+genesisBlock.PrevHash = ''; % No previous hash for the first block
+blockchain = [genesisBlock];
+
+% Simulate accident, voting, and recording on blockchain
+for vehicleID = 1:numVehicles
+    % Simulate voting (simplified: random decision)
+    isSpeedAboveThreshold = rand() > 0.5;
+    
+    % Record information on blockchain
+    newBlock = Block();
+    newBlock.SpeakerID = sprintf('Vehicle %d', vehicleID);
+    newBlock.VotingResults = isSpeedAboveThreshold;
+    newBlock.PrevHash = blockchain(end).PrevHash; % Reference previous block's hash
+    
+    blockchain = [blockchain, newBlock];
+end
+
+% Display blockchain information
+disp('Blockchain Contents:');
+for i = 1:length(blockchain)
+    disp(['Block ', num2str(i)]);
+    disp(['   Speaker ID: ', blockchain(i).SpeakerID]);
+    disp(['   Voting Results: ', num2str(blockchain(i).VotingResults)]);
+    disp(['   Previous Hash: ', blockchain(i).PrevHash]);
+end
